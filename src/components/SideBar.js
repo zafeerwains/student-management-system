@@ -51,7 +51,7 @@ export default function SideBar() {
         <Menu.Item key="3" icon={<PiBooksBold style={{ fontSize: "20px" }}/> } onClick={() => linkto("/courses")}>
           Courses
         </Menu.Item>
-        <Menu.Item key="4" icon={<AiFillProfile style={{ fontSize: "20px" }} /> } onClick={() => linkto("/attendence")}>
+        <Menu.Item key="4" icon={<AiFillProfile style={{ fontSize: "20px" }} /> } onClick={() => linkto("/Showattendence")}>
           Attendance
         </Menu.Item>
 

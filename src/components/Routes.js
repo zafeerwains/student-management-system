@@ -6,6 +6,7 @@ import Students from './Students';
 import Courses from './Courses';
 import Attendance from './Attendance';
 import Dashboard from "../dashboard/Dashboard"
+import ShowAttendance from './ShowAttendance';
 
 export default function Index() {
     return (
@@ -28,6 +29,7 @@ export default function Index() {
                                     <Route path='/students' element={<Students/>}/>
                                     <Route path='/courses' element={<Courses/>}/>
                                     <Route path='/attendence' element={<Attendance/>}/>
+                                    <Route path='/Showattendence' element={<ShowAttendance/>}/>
                                     <Route path='/' element={<Dashboard/>}/>
                                 </Routes>
                             </Layout>
