@@ -3,9 +3,11 @@ import { Route, Routes } from 'react-router-dom'
 import SideBar from './SideBar'
 import { Layout } from 'antd'
 import Students from './Students';
+import Courses from './Courses';
+import Attendance from './Attendance';
+import Dashboard from "../dashboard/Dashboard"
 
 export default function Index() {
-    const [collapsed, setCollapsed] = useState(false);
     return (
         <>
             <div className="container-xxl">
@@ -19,12 +21,14 @@ export default function Index() {
                             <Layout
                                 className="site-layout"
                                 style={{
-                                    marginLeft: collapsed ? 80 : 220,
                                     background: 'white',
                                 }}
                             >
                                 <Routes>
                                     <Route path='/students' element={<Students/>}/>
+                                    <Route path='/courses' element={<Courses/>}/>
+                                    <Route path='/attendence' element={<Attendance/>}/>
+                                    <Route path='/' element={<Dashboard/>}/>
                                 </Routes>
                             </Layout>
                         </Layout>
