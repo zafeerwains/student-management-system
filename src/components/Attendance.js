@@ -1,7 +1,90 @@
-import React from 'react'
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { firestore } from '../config/firebase';
 
 export default function Attendance() {
+  const [students, setStudents] = useState([]);
+
+  const markAttendance = (studentId) => {
+    setStudents((prevStudents) =>
+      prevStudents.map((student) =>
+        student.studentId === studentId ? { ...student, present: !student.present } : student
+      )
+    );
+  };
+  const attendanceSave=async()=>{
+    try {
+      await setDoc(doc(firestore, 'attendance', 123), students);
+      setcoursesData([courseData, ...coursesData]);
+      message.success('The course Added successfully');
+      setIsModalOpen(false)
+  } catch (error) {
+      console.error('Error adding document: ', error);
+  }
+  }
+
+  useEffect(() => {
+    const getStudentsFromFirestore = async () => {
+      const q = query(collection(firestore, 'students'), where('status', '==', 'active'));
+      const querySnapshot = await getDocs(q);
+      const array = [];
+      querySnapshot.forEach((doc) => {
+        const data = { ...doc.data(), present: false }; // Added return statement
+        array.push(data);
+      });
+      console.log(array);
+      setStudents(array);
+    };
+
+    getStudentsFromFirestore();
+  }, []);
+
   return (
-    <div>Attendance</div>
-  )
+    <div>
+      <h2 className='text-center my-5'>Student Attendance</h2>
+
+      <div className="container ">
+        <div className="row">
+          <div className="col">
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Sr.</th>
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Student ID</th>
+                    <th scope="col">Attendance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {students.map((student, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{student.fullName}</td>
+                      <td>{student.studentId}</td>
+                      <td className='px-4'>
+                        <input
+                          type="checkbox"
+                          checked={student.present}
+                          onChange={() => markAttendance(student.studentId)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div >
+      <div className='d-flex justify-content-center'>
+        <button className='btn text-center btn-primary'
+          onClick={attendanceSave}
+        >
+          Submit Attendance
+        </button>
+      </div>
+    </div>
+  );
 }

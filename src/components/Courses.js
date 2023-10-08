@@ -111,6 +111,7 @@ export default function Courses() {
                                         <th scope="col">Course code</th>
                                         <th scope="col">Course Name</th>
                                         <th scope="col">Description </th>
+                                        <th scope="col">Actions </th>
                                     </tr>
                                 </thead>
                                 <tbody>
