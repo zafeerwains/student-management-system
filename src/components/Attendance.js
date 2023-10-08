@@ -1,10 +1,11 @@
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { firestore } from '../config/firebase';
+import { message } from 'antd';
 
 export default function Attendance() {
   const [students, setStudents] = useState([]);
-
+// const [attendanceOfStudent,setAttendancOfStudent]=useState({})
   const markAttendance = (studentId) => {
     setStudents((prevStudents) =>
       prevStudents.map((student) =>
@@ -12,16 +13,27 @@ export default function Attendance() {
       )
     );
   };
-  const attendanceSave=async()=>{
+  const attendanceSave = async () => {
+    let studentsPresent = students.filter(student => student.present === true);
+    let studentsAbsent = students.filter(student => student.present === false);
+    const attendanceId = Math.random().toString(36).slice(2);
+  
+    let attendanceOfStudent = {
+      id: attendanceId,
+      createdAt: new Date().toLocaleString(),
+      PresentStudents: studentsPresent,
+      AbsentStudents: studentsAbsent,
+    };
+
     try {
-      await setDoc(doc(firestore, 'attendance', 123), students);
-      setcoursesData([courseData, ...coursesData]);
-      message.success('The course Added successfully');
-      setIsModalOpen(false)
-  } catch (error) {
+      await setDoc(doc(firestore, 'attendance', attendanceId), attendanceOfStudent);
+      message.success('Attendance added successfully');
+    } catch (error) {
       console.error('Error adding document: ', error);
-  }
-  }
+      message.error('Error in adding attendance');
+    }
+  };
+  
 
   useEffect(() => {
     const getStudentsFromFirestore = async () => {
